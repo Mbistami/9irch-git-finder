@@ -39,6 +39,7 @@ const UserCard = ({
       if (achievement) break;
     }
     tiers.map((tier) => userData?.achievements?.find((a) => a.tier === "hard"));
+    console.log(userData);
   }, [userData]);
 
   return (

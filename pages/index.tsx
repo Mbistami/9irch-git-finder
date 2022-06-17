@@ -14,16 +14,18 @@ import { SearchBar } from "../components/SearchBar";
 import { useRouter } from "next/router";
 import UserCard from "../components/UserCard";
 import ActivityHours from "../components/AcctivityHour";
+import { useAppContext } from "../context/authentication";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import { fetch_me } from "../utils";
 
 export default function Home() {
   const [isDark, setIsDark] = React.useState(true);
   const toggleDarkMode = () => setTimeout(() => setIsDark(!isDark), 100);
-  const [userData, setUserData] = React.useState(null);
   const [totalRange, setTotalRange] = React.useState(null);
   const [startDate, setStartDate] = React.useState(
     () => new Date(new Date().getFullYear(), 0, 1)
   );
+  const [user, setUser] = useAppContext();
   const [endDate, setEndDate] = React.useState(new Date());
   const [searchValue, setSearchValue] = React.useState("");
   const [notFound, setNotFound] = React.useState("");
@@ -55,83 +57,33 @@ export default function Home() {
         .then((res) => {
           if (res.status === 200) {
             res.json().then((data) => {
-              setUserData(data[0]);
+              setUser(data[0]);
             });
           } else {
-            setUserData(null);
+            setUser(null);
             setNotFound(searchValue);
           }
         })
         .catch(() => {
-          setUserData(null);
+          setUser(null);
 
           setNotFound(searchValue);
         });
     } catch (error) {
-      setUserData(null);
+      setUser(null);
 
       setNotFound(searchValue);
     }
   };
   React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      const loaded_data = localStorage?.getItem("logtime_userdata")
-        ? JSON.parse(localStorage?.getItem("logtime_userdata") || "{}")
-        : null;
-
-      if (token && !loaded_data) {
-        fetch(`http://localhost:3001/auth?code=${token}`, {
-          method: "GET",
-        })
-          .then(
-            (res: any) =>
-              res.status === 200 &&
-              res.json().then((data: any) => {
-                fetch(`http://localhost:3001/me`, {
-                  method: "GET",
-                  headers: { Authorization: `Bearer ${data?.access_token}` },
-                }).then((res: any) => {
-                  if (res?.status === 200)
-                    res.json().then((userData: any) => {
-                      localStorage.setItem(
-                        "logtime_userdata",
-                        JSON.stringify({
-                          Authorization: `Bearer ${data?.access_token}`,
-                          ...userData,
-                        })
-                      );
-                      setUserData({
-                        Authorization: `Bearer ${data?.access_token}`,
-                        ...userData,
-                      });
-                    });
-                });
-              })
-          )
-          .catch();
-      } else if (loaded_data) {
-        fetch(`https://api.intra.42.fr/v2/me`, {
-          method: "GET",
-          headers: { Authorization: `Bearer ${loaded_data?.Authorization}` },
-        })
-          .then((res) => {
-            if (res.status !== 200) {
-              // localStorage?.removeItem("logtime_userdata");
-              // window.open(
-              //   "https://api.intra.42.fr/oauth/authorize?client_id=0f564e70b1cb711fe15d307d5512ee847fd8dc4a709c34ea29df9211359b1dad&redirect_uri=https%3A%2F%2F9irch-finder.tech%2F&response_type=code",
-              //   "_self"
-              // );
-              // console.log(res.status);
-            }
-          })
-          .catch(() => {});
-        setUserData(loaded_data);
-      } else
-        window.open(
-          "https://api.intra.42.fr/oauth/authorize?client_id=0f564e70b1cb711fe15d307d5512ee847fd8dc4a709c34ea29df9211359b1dad&redirect_uri=https%3A%2F%2F9irch-finder.tech%2F&response_type=code",
-          "_self"
-        );
-    }
+    // if (typeof window !== "undefined") {
+    //   if (token && !user?.Authorization) {
+    //   } else if (!token)
+    //     window.open(
+    //       "https://api.intra.42.fr/oauth/authorize?client_id=0f564e70b1cb711fe15d307d5512ee847fd8dc4a709c34ea29df9211359b1dad&redirect_uri=https%3A%2F%2F9irch-finder.tech%2F&response_type=code",
+    //       "_self"
+    //     );
+    // }
   }, [token]);
   React.useEffect(() => console.log(startDate), [startDate]);
   React.useEffect(() => console.log(endDate), [endDate]);
@@ -168,14 +120,14 @@ export default function Home() {
         />
         <div className="w-full m-0">
           <div className={styles.bottomData}>
-            {userData != null ? (
+            {user != null ? (
               <>
                 <UserCard
                   setStartDate={setStartDate}
                   setEndDate={setEndDate}
                   startDate={startDate}
                   endDate={endDate}
-                  userData={userData}
+                  userData={user}
                   totalRange={totalRange}
                 />
               </>
@@ -217,7 +169,7 @@ export default function Home() {
                 setStartDate={setStartDate}
                 startDate={startDate}
                 handleChange={handleChange}
-                user={userData}
+                user={user}
                 setTotalRange={setTotalRange}
                 isFullYear
               />

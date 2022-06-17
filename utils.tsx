@@ -18,15 +18,17 @@ export const loadTotalYearDate = async (user: any, setData: any, data: any) => {
             "4d76967b4c5b69c49fe0f57ffd9865ed9ca9638e85daefdfdb82ba0209a0402e",
         },
       }
-    ).then((res) => {
-      if (res.status === 200)
-        res.json().then((data_) => {
-          savedData.push({
-            name: startDate_?.toLocaleDateString("en-US", { month: "short" }),
-            value: data_["hydra:member"][0]?.totalHours || 0,
+    )
+      .then((res) => {
+        if (res.status === 200)
+          res.json().then((data_) => {
+            savedData.push({
+              name: startDate_?.toLocaleDateString("en-US", { month: "short" }),
+              value: data_["hydra:member"][0]?.totalHours || 0,
+            });
           });
-        });
-    });
+      })
+      .catch(() => {});
     startDate_ = endDate_;
     endDate_ = new Date(endDate_?.getFullYear(), endDate_?.getMonth() + 1, 27);
   }
@@ -79,4 +81,26 @@ export const loadTotalDaysRange = async (
     endDateRange.setDate(endDateRange.getDate() + 1);
   }
   setData([...savedData]);
+};
+
+export const fetch_me = (setUserData: any, data: any, userData: any) => {
+  fetch(`http://localhost:3001/me`, {
+    method: "GET",
+    headers: { Authorization: `Bearer ${data?.access_token}` },
+  }).then((res: any) => {
+    if (res?.status === 200)
+      res.json().then((userData: any) => {
+        localStorage.setItem(
+          "logtime_userdata",
+          JSON.stringify({
+            Authorization: `Bearer ${data.access_token}`,
+            ...userData,
+          })
+        );
+        setUserData({
+          Authorization: `Bearer ${data?.access_token}`,
+          ...userData,
+        });
+      });
+  });
 };
