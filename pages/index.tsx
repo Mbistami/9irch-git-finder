@@ -55,36 +55,30 @@ export default function Home() {
         .then((res) => {
           if (res.status === 200) {
             res.json().then((data) => {
-              console.log(data[0]);
               setUserData(data[0]);
             });
           } else {
             setUserData(null);
-            console.log(searchValue);
             setNotFound(searchValue);
           }
-          console.log(res);
         })
         .catch(() => {
-          console.log("ERROR");
           setUserData(null);
-          console.log(searchValue);
+
           setNotFound(searchValue);
         });
     } catch (error) {
-      console.log("ERROR");
       setUserData(null);
-      console.log(searchValue);
+
       setNotFound(searchValue);
     }
   };
   React.useEffect(() => {
-    console.log(typeof window);
     if (typeof window !== "undefined") {
       const loaded_data = localStorage?.getItem("logtime_userdata")
         ? JSON.parse(localStorage?.getItem("logtime_userdata") || "{}")
         : null;
-      console.log(loaded_data);
+
       if (token && !loaded_data) {
         fetch(
           `https://api.intra.42.fr/oauth/token?grant_type=authorization_code&client_id=0f564e70b1cb711fe15d307d5512ee847fd8dc4a709c34ea29df9211359b1dad&client_secret=c002600a3607dd7b938916ed33e8eb50270ef0d640b7b895dde1cb0e3f062ee1&code=${encodeURIComponent(

@@ -79,7 +79,6 @@ const PerformanceChart = ({
       ).then((res) => {
         if (res.status === 200)
           res.json().then((data) => {
-            console.log(data);
             setTotalRange(data["hydra:member"][0]?.totalHours || 0);
           });
       });

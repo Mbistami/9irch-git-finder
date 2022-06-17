@@ -21,15 +21,6 @@ export const loadTotalYearDate = async (user: any, setData: any, data: any) => {
     ).then((res) => {
       if (res.status === 200)
         res.json().then((data_) => {
-          console.log({
-            name: startDate_?.toLocaleDateString("en-US", { month: "short" }),
-            value: data_,
-            link: `https://time-logger.1337.ma/api/log_times?start_date=${
-              startDate_?.toISOString()?.toString()?.split("T")[0]
-            }&end_date=${
-              endDate_?.toISOString()?.toString()?.split("T")[0]
-            }&username=${user?.login}`,
-          });
           savedData.push({
             name: startDate_?.toLocaleDateString("en-US", { month: "short" }),
             value: data_["hydra:member"][0]?.totalHours || 0,
@@ -53,11 +44,6 @@ export const loadTotalDaysRange = async (
   let startDateRange = startDate;
   let endDateRange = endDate;
   const savedData: any = [];
-  console.log(
-    "loadedTotalDaysRange",
-    startDateRange.toISOString(),
-    endDateRange.toISOString()
-  );
   while (
     startDateRange.getMonth() !== endDateRange.getMonth() ||
     startDateRange.getDay() !== endDateRange.getDay()
@@ -80,12 +66,6 @@ export const loadTotalDaysRange = async (
         (res: any) =>
           res.status === 200 &&
           res.json().then((data_: any) => {
-            console.log({
-              name: startDateRange?.toLocaleDateString("en-US", {
-                month: "short",
-              }),
-              value: data_["hydra:member"][0]?.totalHours,
-            });
             savedData.push({
               name: startDateRange?.toLocaleDateString("en-US", {
                 month: "short",
@@ -98,6 +78,5 @@ export const loadTotalDaysRange = async (
     startDateRange = endDateRange;
     endDateRange.setDate(endDateRange.getDate() + 1);
   }
-  console.log("savedData", savedData);
   setData([...savedData]);
 };

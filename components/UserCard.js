@@ -25,7 +25,6 @@ const UserCard = ({
   const [hardest, setHardest] = React.useState(null);
 
   const handleChange = (newValue) => {
-    console.log(newValue);
     setStartDate(newValue);
   };
   const handleChange_ = (newValue) => {
