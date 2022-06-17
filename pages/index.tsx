@@ -41,9 +41,9 @@ export default function Home() {
   const truncate = (str: string, len: number) =>
     str?.length > len ? str.slice?.(0, len) + "..." : str;
   const handleSearch = () => {
-    const loaded_data = JSON.parse(
-      localStorage?.getItem("logtime_userdata") || ""
-    );
+    const loaded_data = localStorage?.getItem("logtime_userdata")
+      ? JSON.parse(localStorage?.getItem("logtime_userdata") || "{}")
+      : null;
     try {
       fetch(
         `https://api.intra.42.fr/v2/campus/21/users?filter[login]=${searchValue}`,
@@ -81,9 +81,9 @@ export default function Home() {
   React.useEffect(() => {
     console.log(typeof window);
     if (typeof window !== "undefined") {
-      const loaded_data = JSON.parse(
-        localStorage?.getItem("logtime_userdata") || ""
-      );
+      const loaded_data = localStorage?.getItem("logtime_userdata")
+        ? JSON.parse(localStorage?.getItem("logtime_userdata") || "{}")
+        : null;
       console.log(loaded_data);
       if (token && !loaded_data) {
         fetch(
