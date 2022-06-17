@@ -87,7 +87,7 @@ export default function Home() {
             (res: any) =>
               res.status === 200 &&
               res.json().then((data: any) => {
-                fetch(`https://api.intra.42.fr/v2/me`, {
+                fetch(`http://localhost:3001/me`, {
                   method: "GET",
                   headers: { Authorization: `Bearer ${data?.access_token}` },
                 }).then((res: any) => {
