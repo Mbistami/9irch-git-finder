@@ -80,14 +80,9 @@ export default function Home() {
         : null;
 
       if (token && !loaded_data) {
-        fetch(
-          `https://api.intra.42.fr/oauth/token?grant_type=authorization_code&client_id=0f564e70b1cb711fe15d307d5512ee847fd8dc4a709c34ea29df9211359b1dad&client_secret=c002600a3607dd7b938916ed33e8eb50270ef0d640b7b895dde1cb0e3f062ee1&code=${encodeURIComponent(
-            token
-          )}&redirect_uri=${encodeURIComponent(`https://9irch-finder.tech/`)}`,
-          {
-            method: "POST",
-          }
-        )
+        fetch(`http://localhost:3001/auth?code=${token}`, {
+          method: "GET",
+        })
           .then(
             (res: any) =>
               res.status === 200 &&
