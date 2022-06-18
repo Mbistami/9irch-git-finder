@@ -47,7 +47,7 @@ export default function Home() {
       ? JSON.parse(localStorage?.getItem("logtime_userdata") || "{}")
       : null;
     try {
-      fetch(`http://localhost:3001/users/${searchValue}/${token}`, {
+      fetch(`https://timer-logger.herokuapp.com/users/${searchValue}/${token}`, {
         method: "GET",
       })
         .then((res) => {
