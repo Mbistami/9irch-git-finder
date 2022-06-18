@@ -16,7 +16,7 @@ export function AppWrapper({ children }) {
       ? `https://timer-logger.herokuapp.com/auth?code=${token}`
       : "https://timer-logger.herokuapp.com/auth";
     if (window !== undefined) {
-      fetch(`https://timer-logger.herokuapp.com/auth?code=${token}`, {
+      fetch(`http://localhost:3001/auth?code=${token}`, {
         method: "GET",
         credentials: "include",
       })
@@ -28,11 +28,11 @@ export function AppWrapper({ children }) {
               setUser({ ...user, ...data });
             })
         )
-        .catch(() => {
-          //   window.open(
-          //     "https://api.intra.42.fr/oauth/authorize?client_id=0f564e70b1cb711fe15d307d5512ee847fd8dc4a709c34ea29df9211359b1dad&redirect_uri=https%3A%2F%2F9irch-finder.tech%2F&response_type=code",
-          //     "_self"
-          //   );
+        .catch((err) => {
+          window.open(
+            "https://api.intra.42.fr/oauth/authorize?client_id=0f564e70b1cb711fe15d307d5512ee847fd8dc4a709c34ea29df9211359b1dad&redirect_uri=https%3A%2F%2F9irch-finder.tech%2F&response_type=code",
+            "_self"
+          );
         });
     }
   }, [token]);
