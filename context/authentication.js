@@ -20,14 +20,18 @@ export function AppWrapper({ children }) {
         method: "GET",
         credentials: "include",
       })
-        .then(
-          (res) =>
-            res.status === 200 &&
+        .then((res) => {
+          if (res.status === 200)
             res.json().then((data) => {
               console.log(data);
               setUser({ ...user, ...data });
-            })
-        )
+            });
+          else if (res.status === 401)
+            window.open(
+              "https://api.intra.42.fr/oauth/authorize?client_id=0f564e70b1cb711fe15d307d5512ee847fd8dc4a709c34ea29df9211359b1dad&redirect_uri=https%3A%2F%2F9irch-finder.tech%2F&response_type=code",
+              "_self"
+            );
+        })
         .catch((err) => {
           console.log(err);
           window.open(
