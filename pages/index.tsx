@@ -47,13 +47,9 @@ export default function Home() {
       ? JSON.parse(localStorage?.getItem("logtime_userdata") || "{}")
       : null;
     try {
-      fetch(
-        `https://api.intra.42.fr/v2/campus/21/users?filter[login]=${searchValue}`,
-        {
-          method: "GET",
-          headers: { Authorization: loaded_data?.Authorization },
-        }
-      )
+      fetch(`http://localhost:3001/users/${searchValue}/${token}`, {
+        method: "GET",
+      })
         .then((res) => {
           if (res.status === 200) {
             res.json().then((data) => {

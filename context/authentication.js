@@ -16,7 +16,7 @@ export function AppWrapper({ children }) {
       ? `https://timer-logger.herokuapp.com/auth?code=${token}`
       : "https://timer-logger.herokuapp.com/auth";
     if (window !== undefined) {
-      fetch(`https://timer-logger.herokuapp.com/auth?code=${token}`, {
+      fetch(`http://localhost:3001/auth?code=${token}`, {
         method: "GET",
         credentials: "include",
       })
