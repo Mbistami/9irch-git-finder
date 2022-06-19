@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../styles/Global.module.css";
-import { Avatar, Stack } from "@mui/material";
+import { Avatar, Chip, Stack } from "@mui/material";
 import { DashCard } from "./DashCard.tsx";
 import ActivityHours from "./AcctivityHour.tsx";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
@@ -67,7 +67,7 @@ const UserCard = ({
             style={{ borderRadius: "50%" }}
           />
         </div>
-        <div>
+        <div className="pt-5">
           <p style={{ fontSize: "12px", opacity: 0.7 }}>
             Highest achievement tier
           </p>
@@ -113,6 +113,11 @@ const UserCard = ({
                   <Avatar src={`https://api.intra.42.fr/${hardest?.image}`} />
                 )}
               </div>
+              <Chip
+                label={`${hardest?.tier} tier`}
+                sx={{ color: "white" }}
+                className="px-2 py-1 mt-2 font-primary"
+              />
             </div>
           </div>
         </div>
@@ -175,25 +180,21 @@ const UserCard = ({
             </p>
             <p>{userData?.achievements?.length || "-"}</p>
           </div>
-          <div>
-            <p
-              style={{
-                fontSize: "10px",
-                opacity: 0.6,
-                marginBottom: "5px",
-                paddingTop: "5px",
-              }}
-            >
-              Total hours
-            </p>
-            {totalRange ? (
-              <p>{totalRange}</p>
-            ) : (
-              <p style={{ fontSize: 10, width: "100px" }}>
-                The time span must not exceed 80 days
+          {totalRange && (
+            <div>
+              <p
+                style={{
+                  fontSize: "10px",
+                  opacity: 0.6,
+                  marginBottom: "5px",
+                  paddingTop: "5px",
+                }}
+              >
+                Total hours
               </p>
-            )}
-          </div>
+              {totalRange && <p>{totalRange}</p>}
+            </div>
+          )}
         </div>
         <br />
         <LocalizationProvider dateAdapter={AdapterDateFns}>

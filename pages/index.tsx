@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import UserCard from "../components/UserCard";
 import ActivityHours from "../components/AcctivityHour";
 import { useAppContext } from "../context/authentication";
+import { motion } from "framer-motion";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { fetch_me } from "../utils";
 
@@ -22,6 +23,7 @@ export default function Home() {
   const [isDark, setIsDark] = React.useState(true);
   const toggleDarkMode = () => setTimeout(() => setIsDark(!isDark), 100);
   const [totalRange, setTotalRange] = React.useState(null);
+  const [showYearlyData, setShowYearlyData] = useState(null);
   const [startDate, setStartDate] = React.useState(
     () => new Date(new Date().getFullYear(), 0, 1)
   );
@@ -47,9 +49,12 @@ export default function Home() {
       ? JSON.parse(localStorage?.getItem("logtime_userdata") || "{}")
       : null;
     try {
-      fetch(`https://timer-logger.herokuapp.com/users/${searchValue}/${token}`, {
-        method: "GET",
-      })
+      fetch(
+        `https://timer-logger.herokuapp.com/users/${searchValue}/${token}`,
+        {
+          method: "GET",
+        }
+      )
         .then((res) => {
           if (res.status === 200) {
             res.json().then((data) => {
@@ -110,13 +115,18 @@ export default function Home() {
             <Button onClick={toggleDarkMode} text="dark" icon={<DarkMode />} />
           )}
         </div>
-        <SearchBar
+        {/* <SearchBar
           handleSearch={handleSearch}
           setSearchValue={setSearchValue}
-        />
-        <div className="w-full m-0">
+        /> */}
+        <motion.div
+          className="w-full m-0"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           <div className={styles.bottomData}>
-            {user != null ? (
+            {user != null && (
               <>
                 <UserCard
                   setStartDate={setStartDate}
@@ -127,52 +137,32 @@ export default function Home() {
                   totalRange={totalRange}
                 />
               </>
-            ) : (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  width: "100%",
-                  color: searchValue.length > 0 ? "yellowgreen" : "white",
-                }}
-              >
-                <div style={{ width: "100%" }}>
-                  {searchValue.length > 0 && notFound ? (
-                    <p>
-                      Username available <strong>{notFound}</strong>
-                    </p>
-                  ) : notFound ? (
-                    <p>
-                      Username available <strong>{notFound}</strong>
-                    </p>
-                  ) : (
-                    `Search user!`
-                  )}
-                </div>
-                {searchValue.length > 0 && <Check />}
-              </div>
             )}
           </div>
-        </div>
-        <div className={styles.bottomData}>
-          <div className="w-full flex flex-col mt-2">
-            <div>
-              <p className="text-center mb-10">Year activity</p>
-              <ActivityHours
-                endDate={endDate}
-                setStartDate={setStartDate}
-                startDate={startDate}
-                handleChange={handleChange}
-                user={user}
-                setTotalRange={setTotalRange}
-                isFullYear
-              />
-              <p className="text-center">Year activity</p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={showYearlyData ? { opacity: 1 } : { opacity: 0 }}
+        >
+          <div className={styles.bottomData}>
+            <div className="w-full flex flex-col mt-2">
+              <div>
+                <p className="text-center mb-10">Year activity</p>
+                <ActivityHours
+                  endDate={endDate}
+                  setStartDate={setStartDate}
+                  startDate={startDate}
+                  handleChange={handleChange}
+                  user={user}
+                  setTotalRange={setTotalRange}
+                  setShowYearlyData={setShowYearlyData}
+                  isFullYear
+                />
+              </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

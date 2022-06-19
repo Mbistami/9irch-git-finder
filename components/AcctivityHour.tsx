@@ -35,6 +35,7 @@ const PerformanceChart = ({
   isFullYear,
   endDate,
   setTotalRange,
+  setShowYearlyData,
 }: {
   user: any;
   setStartDate?: any;
@@ -43,6 +44,7 @@ const PerformanceChart = ({
   endDate: Date;
   isFullYear?: boolean;
   setTotalRange?: any;
+  setShowYearlyData?: any;
 }) => {
   const Authorization = user?.Authorization;
   const [data, setData] = React.useState<any>([]);
@@ -51,7 +53,7 @@ const PerformanceChart = ({
     const oneDay = 24 * 60 * 60 * 1000;
 
     if (isFullYear && user?.login && data.length === 0)
-      loadTotalYearDate(user, setData, data);
+      loadTotalYearDate(user, setData, data, setShowYearlyData);
     else if (!isFullYear)
       loadTotalDaysRange(user, setData, data, startDate, endDate);
     if (
@@ -77,10 +79,13 @@ const PerformanceChart = ({
           },
         }
       ).then((res) => {
-        if (res.status === 200)
+        if (res.status === 200) {
           res.json().then((data) => {
             setTotalRange(data["hydra:member"][0]?.totalHours || 0);
+            console.log("ateas");
+            setShowYearlyData(true);
           });
+        }
       });
     else setTotalRange(null);
   }, [startDate, user, endDate]);

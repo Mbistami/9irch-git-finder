@@ -1,4 +1,9 @@
-export const loadTotalYearDate = async (user: any, setData: any, data: any) => {
+export const loadTotalYearDate = async (
+  user: any,
+  setData: any,
+  data: any,
+  setShow: any
+) => {
   const now = new Date();
   const startYear = now.getFullYear() - 1;
   const savedData: any = [];
@@ -33,6 +38,7 @@ export const loadTotalYearDate = async (user: any, setData: any, data: any) => {
     endDate_ = new Date(endDate_?.getFullYear(), endDate_?.getMonth() + 1, 27);
   }
   setData([...savedData]);
+  if (savedData?.length > 0) setShow(true);
 };
 
 export const loadTotalDaysRange = async (
