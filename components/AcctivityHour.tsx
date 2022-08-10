@@ -74,8 +74,7 @@ const PerformanceChart = ({
         {
           method: "GET",
           headers: {
-            Authorization:
-              "4d76967b4c5b69c49fe0f57ffd9865ed9ca9638e85daefdfdb82ba0209a0402e",
+            Authorization: `${process.env.API_KEY}`,
           },
         }
       ).then((res) => {
