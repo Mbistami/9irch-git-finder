@@ -72,7 +72,7 @@ const UserCard = ({
           <p className="text-xs opacity-90 tracking-widest">
             Cursus level{" "}
             <span className="text-white ">
-              {user?.cursus_users.find((a) => a.end_at === null)?.level}
+              {user?.cursus_users.find((a) => a.end_at === null)?.level.toString().replace('.', ' - ')}%
             </span>
           </p>
           <p style={{ fontSize: "12px", opacity: 0.7 }}>

@@ -12,6 +12,7 @@ import { motion } from "framer-motion";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { fetch_me } from "../utils";
 
+
 export default function Home() {
   const [isDark, setIsDark] = React.useState(true);
   const toggleDarkMode = () => setTimeout(() => setIsDark(!isDark), 100);
@@ -94,6 +95,7 @@ export default function Home() {
           href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap"
           rel="stylesheet"
         />
+        <title>Log time - Graph</title>
       </Head>
       <div className={styles.cardContainer}>
         <div className={styles.navbar}>
