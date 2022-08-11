@@ -5,7 +5,7 @@ import { DashCard } from "./DashCard.tsx";
 import ActivityHours from "./AcctivityHour.tsx";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-
+import { useAppContext } from "../context/authentication";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { TextField } from "@mui/material";
 
@@ -23,7 +23,7 @@ const UserCard = ({
     hard: "red",
   };
   const [hardest, setHardest] = React.useState(null);
-
+  const [user, setUser] = useAppContext();
   const handleChange = (newValue) => {
     setStartDate(newValue);
   };
@@ -49,6 +49,7 @@ const UserCard = ({
         style={{
           display: "flex",
           flexDirection: "column",
+          position: "relative",
         }}
       >
         <div
@@ -67,7 +68,13 @@ const UserCard = ({
             style={{ borderRadius: "50%" }}
           />
         </div>
-        <div className="pt-5">
+        <div className="pt-5 flex flex-col gap-2">
+          <p className="text-xs opacity-90 tracking-widest">
+            Cursus level{" "}
+            <span className="text-white ">
+              {user?.cursus_users.find((a) => a.end_at === null)?.level}
+            </span>
+          </p>
           <p style={{ fontSize: "12px", opacity: 0.7 }}>
             Highest achievement tier
           </p>
