@@ -81,7 +81,7 @@ const PerformanceChart = ({
         if (res.status === 200) {
           res.json().then((data) => {
             setTotalRange(data["hydra:member"][0]?.totalHours || 0);
-            console.log("ateas");
+            console.log(data["hydra:member"][0]?.totalHours);
             setShowYearlyData(true);
           });
         }

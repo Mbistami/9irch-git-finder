@@ -1,14 +1,7 @@
 import React, { useState } from "react";
 import Head from "next/head";
 import styles from "../styles/Global.module.css";
-import {
-  LightMode,
-  DarkMode,
-  GpsFixed,
-  Twitter,
-  Link,
-  Check,
-} from "@mui/icons-material";
+import { PersonOutline, VerifiedUser } from "@mui/icons-material";
 import { Button } from "../components/Button";
 import { SearchBar } from "../components/SearchBar";
 import { useRouter } from "next/router";
@@ -104,15 +97,19 @@ export default function Home() {
       </Head>
       <div className={styles.cardContainer}>
         <div className={styles.navbar}>
-          <p className={styles.logo}>9irch-git-Finder</p>
-          {isDark ? (
+          <p className={styles.logo}>9irch-log-time</p>
+          {user && user["staff?"] ? (
             <Button
               onClick={toggleDarkMode}
-              text="light"
-              icon={<LightMode />}
+              text="STAFF"
+              icon={<VerifiedUser />}
             />
           ) : (
-            <Button onClick={toggleDarkMode} text="dark" icon={<DarkMode />} />
+            <Button
+              onClick={toggleDarkMode}
+              text="STUDENT"
+              icon={<PersonOutline />}
+            />
           )}
         </div>
         {/* <SearchBar
