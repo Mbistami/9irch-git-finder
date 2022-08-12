@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Head from "next/head";
+import Image from "next/image";
 import styles from "../styles/Global.module.css";
 import { PersonOutline, VerifiedUser } from "@mui/icons-material";
 import { Button } from "../components/Button";
@@ -11,7 +12,6 @@ import { useAppContext } from "../context/authentication";
 import { motion } from "framer-motion";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { fetch_me } from "../utils";
-
 
 export default function Home() {
   const [isDark, setIsDark] = React.useState(true);
@@ -125,6 +125,19 @@ export default function Home() {
           transition={{ duration: 0.5 }}
         >
           <div className={styles.bottomData}>
+            {user != null && (
+              <div
+                className={`absolute left-0 w-full top-0 h-1`}
+                style={{ backgroundColor: user?.coalition.color }}
+              >
+                {/* <Image
+                  src={user?.coalition.image_url || ""}
+                  layout="fill"
+                  alt="coalition"
+                  className="rounded-xl overflow-hidden"
+                /> */}
+              </div>
+            )}
             {user != null && (
               <>
                 <UserCard

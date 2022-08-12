@@ -69,12 +69,29 @@ const UserCard = ({
           />
         </div>
         <div className="pt-5 flex flex-col gap-2">
-          <p className="text-xs opacity-90 tracking-widest">
-            Cursus level{" "}
-            <span className="text-white ">
-              {user?.cursus_users.find((a) => a.end_at === null)?.level.toString().replace('.', ' - ')}%
-            </span>
-          </p>
+          <div className="absolute bg-[#141c2f] relative w-full h-fit rounded-xl overflow-hidden">
+            <div
+              className="absolute bg-white h-full opacity-30 "
+              style={{
+                width: `${
+                  user?.cursus_users
+                    .find((a) => a.end_at === null)
+                    ?.level.toString()
+                    .split(".")[1]
+                }%`,
+              }}
+            />
+            <p className="text-xs opacity-90 tracking-widest">
+              Cursus level{" "}
+              <span className="text-white ">
+                {user?.cursus_users
+                  .find((a) => a.end_at === null)
+                  ?.level.toString()
+                  .replace(".", " - ")}
+                %
+              </span>
+            </p>
+          </div>
           <p style={{ fontSize: "12px", opacity: 0.7 }}>
             Highest achievement tier
           </p>
@@ -144,7 +161,9 @@ const UserCard = ({
               .join("")}
           </p>
         </div>
-        <p style={{ color: "#0278fe", fontSize: "14px" }}>{userData?.name}</p>
+        {/* <p style={{ color: userData?.coalition.color, fontSize: "14px" }}>
+          {userData?.coalition.name}
+        </p> */}
 
         <div className={styles.moreData}>
           <div>
