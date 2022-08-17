@@ -206,7 +206,7 @@ const UserCard = ({
             </p>
             <p>{userData?.achievements?.length || "-"}</p>
           </div>
-          {totalRange && (
+          {totalRange !== null && (
             <div>
               <p
                 style={{
@@ -218,7 +218,7 @@ const UserCard = ({
               >
                 Total hours
               </p>
-              {totalRange && <p>{totalRange}</p>}
+               <p>{totalRange}</p>
             </div>
           )}
         </div>

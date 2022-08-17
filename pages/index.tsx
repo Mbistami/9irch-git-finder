@@ -114,10 +114,6 @@ export default function Home() {
             />
           )}
         </div>
-        {/* <SearchBar
-          handleSearch={handleSearch}
-          setSearchValue={setSearchValue}
-        /> */}
         <motion.div
           className="w-full m-0"
           initial={{ opacity: 0 }}
@@ -129,14 +125,7 @@ export default function Home() {
               <div
                 className={`absolute left-0 w-full top-0 h-1`}
                 style={{ backgroundColor: user?.coalition.color }}
-              >
-                {/* <Image
-                  src={user?.coalition.image_url || ""}
-                  layout="fill"
-                  alt="coalition"
-                  className="rounded-xl overflow-hidden"
-                /> */}
-              </div>
+              />                
             )}
             {user != null && (
               <>
